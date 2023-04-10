@@ -11,7 +11,7 @@ void blink_setup() {
   // log_e(">> Serial baudrate: %d\n", Serial.baudRate());
   // log_e(">> Serial available: %d\n", Serial.available());
   blink = millis();
-  Serial.println("Setup completed");
+  Serial.println("Blink setup completed");
 
   blink = millis();
 }

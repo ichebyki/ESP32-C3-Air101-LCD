@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTMLFont size</title>
+</head>
+
+<body style="font-size:'+2';">
+    <font size="+2">
+    <br /><br />
+    <br /><br />
+    <br /><br />
+    <br />
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <form style="font-size:'+2';" method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
+        <table style="border-spacing: 12px;" width='20%' bgcolor='A09F9F' align='center'>
+            <tr>
+                <td colspan=2>
+                    <center>
+                        <b>ESP32 OTA Update Page</b>
+                    </center>
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td style="font-size:'+2';" colspan=2 align='center'><input style="font-size:'+2';" type='file' name='update'></td>
+            </tr>
+            <tr>
+                <td colspan="2" align='center'>
+                    <input type="radio" id="firmware" name="upload_type" value="firmware">
+                    <label for="firmware">firmware</label>
+
+                    <input type="radio" id="spiffs" name="upload_type" value="spiffs">
+                    <label for="spiffs">spiffs</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan=2 align='center'><input type='submit' value='Update'>
+                    <div id='prg'>progress: 0%</div>
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+    <script>
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var form = $('#upload_form')[0];
+            var data = new FormData(form);
+            var upload_type = '';
+            console.log(data['upload_type']);
+            for (const entry of data) {
+                if (entry[0] == 'upload_type') {
+                    upload_type = entry[1];
+                }
+            };
+            $.ajax({
+                url: '/update?upload_type=' + upload_type,
+                type: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function (evt) {
+                        if (evt.lengthComputable) {
+                            var per = evt.loaded / evt.total;
+                            $('#prg').html('progress: ' + Math.round(per * 100) + '%' + data);
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function (d, s) {
+                    console.log('success!')
+                },
+                error: function (a, b, c) {
+                }
+            });
+        });
+    </script>
+    </font>
+</body>
+</html>
