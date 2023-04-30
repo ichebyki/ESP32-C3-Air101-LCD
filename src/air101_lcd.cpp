@@ -3,7 +3,7 @@
 #include <SPI.h>
 #include "air101_lcd.h"
 
-#define FLIP
+//#define FLIP
 
 const uint8_t BL_PIN = 11;
 const uint8_t KEY_PINS[5] = {8, 9, 13, 5, 4}; // UP, RT, DN, LT, CR
@@ -60,9 +60,9 @@ void air101_lcd_setup() {
   fade(0, 128, 4);
   lcd.fill(0, 0, lcd.width(), lcd.height(), lcd.WHITE);
   fade(0, 128, 4);
-  lcd.clear();
   ///*
-  for (char c = ' '; c < 255; ++c) {
+  lcd.clear();
+  for (char c = ' '; c < 128; ++c) {
     lcd.print(
         ((c - ' ') % (lcd.width() / (lcd.charWidth()))) * (lcd.charWidth()),
         ((c - ' ') / (lcd.width() / (lcd.charWidth()))) * lcd.charHeight(), c,
