@@ -10,7 +10,7 @@ void setup() {
 
   air101_lcd_setup();
   web_server_setup();
-  blink_setup();
+  //blink_setup();
 
   Serial.println("Setup completed");
 }
@@ -18,5 +18,5 @@ void setup() {
 void loop() {
   keys_loop();
   web_server_loop();
-  blink_loop();
+  //blink_loop();
 }

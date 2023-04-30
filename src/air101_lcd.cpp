@@ -24,10 +24,15 @@ static void fade(uint8_t from, uint8_t to, uint8_t delta) {
   }
 }
 
-static void drawMenuItem(uint8_t index, bool active = false) {
+static void drawMenuItem(uint8_t index, bool active = false,
+                         uint8_t ext = -1) {
   char str[21];
 
-  sprintf(str, "Item #%u", index);
+  if (ext == index) {
+    sprintf(str, "Item #%u - ok", index);
+  } else {
+    sprintf(str, "Item #%u     ", index);
+  }
   lcd.print(0, lcd.charHeight() * index, str, lcd.WHITE,
             active ? lcd.BLUE : lcd.BLACK);
 }
@@ -57,7 +62,7 @@ void air101_lcd_setup() {
   fade(0, 128, 4);
   lcd.clear();
   ///*
-  for (char c = ' '; c < 127; ++c) {
+  for (char c = ' '; c < 255; ++c) {
     lcd.print(
         ((c - ' ') % (lcd.width() / (lcd.charWidth()))) * (lcd.charWidth()),
         ((c - ' ') / (lcd.width() / (lcd.charWidth()))) * lcd.charHeight(), c,
@@ -77,11 +82,15 @@ void air101_lcd_setup() {
 void keys_loop() {
   static uint8_t keys = 0x1F;
   static uint8_t pos = 1;
+  static uint8_t ext = -1;
 
+  // Serial.printf("Button: %d, %d, %d, %d, %d\n", digitalRead(KEY_PINS[0]),
+  //                digitalRead(KEY_PINS[1]), digitalRead(KEY_PINS[2]),
+  //                digitalRead(KEY_PINS[3]), digitalRead(KEY_PINS[4]));
   for (uint8_t i = 0; i < sizeof(KEY_PINS) / sizeof(KEY_PINS[0]); ++i) {
     if (((keys >> i) & 0x01) != digitalRead(KEY_PINS[i])) {
       if ((keys >> i) & 0x01) {
-        drawMenuItem(pos);
+        drawMenuItem(pos, false, ext);
         switch (i) {
 #ifdef FLIP
         case 2: // DN
@@ -118,9 +127,15 @@ void keys_loop() {
           pos = 1;
           break;
         case 4: // CR
+          if (ext != -1) {
+            drawMenuItem(ext);
+          }
+          ext = pos;
+          break;
+        default:
           break;
         }
-        drawMenuItem(pos, true);
+        drawMenuItem(pos, true, ext);
       }
       keys ^= (1 << i);
     }
