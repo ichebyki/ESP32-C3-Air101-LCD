@@ -1,9 +1,36 @@
+<style>
+    input[type=button],
+    input[type=submit] {
+        background-color: #62529c;
+        border: none;
+        color: #fff;
+        padding: 10px 10px;
+        text-decoration: none;
+        margin: 2px 2px;
+        cursor: pointer;
+        font-size: 150%;
+    }
+
+
+    input[type=file],
+    input[type=radio],
+    input,
+    label,
+    table lablel {
+        border: none;
+        padding: 10px 10px;
+        text-decoration: none;
+        margin: 2px 2px;
+        cursor: pointer;
+        font-size: 150%;
+    }
+</style>
 <form name='loginForm'>
     <table width='20%' bgcolor='A09F9F' align='center'>
         <tr>
             <td colspan=2>
                 <center>
-                    <font size=4><b>ESP32 Login Page</b></font>
+                    <font size=150%><b>ESP32 Login</b></font>
                 </center>
                 <br>
             </td>
@@ -11,19 +38,19 @@
             <br>
         </tr>
         <tr>
-            <td>Username:</td>
+            <td><label>Username:</label></td>
             <td><input type='text' size=25 name='userid'><br></td>
         </tr>
         <br>
         <br>
         <tr>
-            <td>Password:</td>
+            <td><label>Password:</label></td>
             <td><input type='Password' size=25 name='pwd'><br></td>
             <br>
             <br>
         </tr>
         <tr>
-            <td><input type='submit' onclick='check(this.form)' value='Login'></td>
+            <td colspan=2 align="center"><input type='submit' onclick='check(this.form)' value='Login'></td>
         </tr>
     </table>
 </form>

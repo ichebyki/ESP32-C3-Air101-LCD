@@ -3,45 +3,84 @@
 
 <head>
     <title>HTMLFont size</title>
+    <style>
+        input[type=button],
+        input[type=submit]  {
+            background-color: #62529c;
+            border: none;
+            color: #fff;
+            padding: 10px 10px;
+            text-decoration: none;
+            margin: 2px 2px;
+            cursor: pointer;
+            font-size: 150%;
+        }
+        input[type=file]::file-selector-button {
+            background-color: #62529c;
+            border: none;
+            color: #fff;
+            padding: 8px 8px;
+            text-decoration: none;
+            margin: 2px 12px;
+            cursor: pointer;
+            font-size: 70%;
+        }
+        input[type=file],
+        input[type=radio],
+        input,
+        table input,
+        label,
+        table lablel {
+            border: none;
+            padding: 10px 10px;
+            text-decoration: none;
+            margin: 2px 2px;
+            cursor: pointer;
+            font-size: 150%;
+        }
+    </style>
 </head>
 
-<body style="font-size:'+2';">
-    <font size="+2">
+<body>
     <br /><br />
     <br /><br />
     <br /><br />
     <br />
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-    <form style="font-size:'+2';" method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
-        <table style="border-spacing: 12px;" width='20%' bgcolor='A09F9F' align='center'>
+<form id="upload_form" action="#" enctype="multipart/form-data" method="POST">
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <table style="height: 302px; border-spacing: 12px; width: 400px;" cellspacing="12px" align="center"
+        bgcolor="A09F9F">
+        <tbody>
             <tr>
-                <td colspan=2>
-                    <center>
-                        <b>ESP32 OTA Update Page</b>
-                    </center>
-                    <br>
+                <td style="text-align: center;" colspan="2">
+                    <h2><span style="text-decoration: underline;">ESP32 OTA Update</span></h2>
+                </td>
+            </tr>
+            <tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td align="center">
+                    <input id="upload-bin" name="update" type="file" />
                 </td>
             </tr>
             <tr>
-                <td style="font-size:'+2';" colspan=2 align='center'><input style="font-size:'+2';" type='file' name='update'></td>
-            </tr>
-            <tr>
-                <td colspan="2" align='center'>
-                    <input type="radio" id="firmware" name="upload_type" value="firmware">
+                <td colspan="2" align="center">
+                    <input id="firmware" name="upload_type" type="radio" value="firmware" />
                     <label for="firmware">firmware</label>
-
-                    <input type="radio" id="spiffs" name="upload_type" value="spiffs">
+                    <input id="spiffs" name="upload_type" type="radio" value="spiffs" />
                     <label for="spiffs">spiffs</label>
                 </td>
             </tr>
             <tr>
-                <td colspan=2 align='center'><input type='submit' value='Update'>
-                    <div id='prg'>progress: 0%</div>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Update" />
+                    <label id="prg">progress: 0%</label>
                 </td>
             </tr>
-        </table>
-
-    </form>
+        </tbody>
+    </table>
+</form>
 
     <script>
         $('form').submit(function (e) {
@@ -66,7 +105,7 @@
                     xhr.upload.addEventListener('progress', function (evt) {
                         if (evt.lengthComputable) {
                             var per = evt.loaded / evt.total;
-                            $('#prg').html('progress: ' + Math.round(per * 100) + '%' + data);
+                            $('#prg').html('progress: ' + Math.round(per * 100) + '%');
                         }
                     }, false);
                     return xhr;
@@ -79,6 +118,5 @@
             });
         });
     </script>
-    </font>
 </body>
 </html>
