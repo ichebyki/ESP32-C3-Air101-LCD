@@ -77,10 +77,6 @@ void tft_setup() {
 
   tft.initR(INITR_MINI160x80_PLUGIN); // initialize a ST7735S chip
   // Serial.println ("TFT initialized");
-  initialScreen();
-}
-
-void initialScreen() {
   tft.setRotation(rotation);
 
   // prepare the TFT
@@ -94,7 +90,7 @@ void initialScreen() {
   tft.setTextSize(2);    // select text size
   tft.println("ST7735");
   tft.setCursor(30, 30);
-  tft.println("=======");
+  tft.println("======");
   tft.setTextSize(1); // select text size
   tft.setCursor(30, 45);
   tft.println("160x80 pixels");

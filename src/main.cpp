@@ -7,7 +7,6 @@ void setup() {
   Serial.begin(115200);
 
   tft_setup();
-
   web_server_setup();
 
   Serial.println("Setup completed");

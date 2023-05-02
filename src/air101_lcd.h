@@ -4,7 +4,6 @@
 #include "options.h"
 
 void tft_setup();
-void initialScreen();
 
 void joystick_loop();
 void tft_loop();
