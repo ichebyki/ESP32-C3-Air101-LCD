@@ -23,6 +23,7 @@
 Adafruit_ST7735 tft = Adafruit_ST7735(cs, dc, rst);
 uint8_t rotation = 3;
 uint16_t current_freq = 1052;
+char current_radio_name[16];
 
 const uint8_t BL_PIN = 11;
 const uint8_t KEY_PINS[5] = {8, 9, 13, 5, 4}; // UP, RT, DN, LT, CR
@@ -94,9 +95,11 @@ void tft_setup() {
   tft.setTextSize(1); // select text size
   tft.setCursor(30, 45);
   tft.println("160x80 pixels");
+
+  strncpy(current_radio_name, "Xit FM", min(10, (int)(sizeof(current_radio_name) / sizeof(current_radio_name[0]))));
 }
 
-void show_freq(uint16_t new_freq, const char *suffix) {
+bool show_freq(uint16_t new_freq, const char *suffix) {
   static uint16_t old_freq = 0;
   static char curr[8] = {'1', '2', '3', '.', '5', 0, 0, 0};
 
@@ -108,6 +111,8 @@ void show_freq(uint16_t new_freq, const char *suffix) {
     old_freq = new_freq;
     snprintf(curr, 8, "%d.%d", new_freq / 10, new_freq - (new_freq / 10) * 10);
 
+    tft.setTextSize(1);
+
     tft.setFont(&FreeMonoBold18pt7b);
     tft.getTextBounds(curr, 0, 20, &x1, &y1, &w1, &h1);
     tft.setFont(&FreeMono9pt7b);
@@ -116,7 +121,6 @@ void show_freq(uint16_t new_freq, const char *suffix) {
     tft.setTextColor(ST7735_YELLOW);
     tft.fillRect(1, 1, 158, 78, ST7735_BLACK);
 
-    tft.setTextSize(1); // select text size
     tft.setFont(&FreeMonoBold18pt7b);
     tft.setCursor((160 - w1 - w2) / 2, 5 + h1);
     tft.print(curr);
@@ -124,20 +128,31 @@ void show_freq(uint16_t new_freq, const char *suffix) {
     tft.setFont(&FreeMono9pt7b);
     tft.setCursor((160 - w1 - w2) / 2 + w1, 5 + h1);
     tft.print(suffix);
+
+    return true;
   }
+  return false;
+}
+
+void show_radio_name(const char *name) {
+  int16_t x1, y1;
+  uint16_t w1, h1;
+  uint16_t w2, h2;
+
+  tft.setTextSize(1);
+
+  tft.setFont(&FreeMonoBold18pt7b);
+  tft.getTextBounds("0", 0, 20, &x1, &y1, &w1, &h1);
+  tft.setFont(&FreeMonoBold12pt7b);
+  tft.getTextBounds(name, 0, 20, &x1, &y1, &w2, &h2);
+
+  tft.setTextColor(ST77XX_ORANGE);
+  tft.setCursor(max(0, (160 - w1 - w2) / 2), 5 + h1 + 5 + h2);
+  tft.print(name);
 }
 
 void tft_loop() {
-  show_freq(current_freq, " MHz");
-  // tft.setTextSize(1); // select text size
-  // tft.setCursor(3, 80 - 15);
-  // tft.print("Hello");
-  //delay(500);
-  // tft.fillRect(3, 80 - 15, 60, 15,
-  //              ST7735_RED); // clear "Hello"
-  // tft.setCursor(3, 80 - 15);
-  // tft.print("World");
-  //delay(500);
-  // tft.fillRect(3, 80 - 15, 60, 15,
-  //              ST7735_RED); // clear "World"
+  if (show_freq(current_freq, " MHz")) {
+    show_radio_name(current_radio_name);
+  }
 }
