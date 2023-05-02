@@ -5,6 +5,8 @@
 #include <WiFiClient.h>
 #include <WiFiMulti.h>
 #include "SPIFFS.h"
+#include "options.h"
+#include "web_server.h"
 
 const char *hostname = "esp32-c3-air101-lcd";
 const char *ssid = "xxxxxxxx";
@@ -104,8 +106,6 @@ void sendFile(const char *path, const String &contentType) {
  * setup function
  */
 void web_server_setup(void) {
-  Serial.begin(115200);
-
   // Initialize SPIFFS
   if (!SPIFFS.begin(true)) {
     Serial.println("An Error has occurred while mounting SPIFFS");
