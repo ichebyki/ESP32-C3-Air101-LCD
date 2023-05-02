@@ -1,4 +1,4 @@
-
+#include "options.h"
 #ifndef NO_BLINK
 #include <Arduino.h>
 

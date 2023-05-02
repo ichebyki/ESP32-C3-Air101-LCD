@@ -1,9 +1,14 @@
-#ifndef AIR101_LCD_H
-#define AIR101_LCD_H
+#ifndef AIR101_LCD_NEW_H
+#define AIR101_LCD_NEW_H
 
 #include "options.h"
 
-void air101_lcd_setup();
-void keys_loop();
+void tft_setup();
+void initialScreen();
 
-#endif // AIR101_LCD_H
+void joystick_loop();
+void tft_loop();
+
+void show_freq(uint16_t freq, const char *suffix);
+
+#endif // AIR101_LCD_NEW_H
